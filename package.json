@@ -1,0 +1,40 @@
+{
+  "name": "awesome-bos-components",
+  "version": "0.0.1",
+  "description": "Awesome BOS components",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+    "start:testnet": "APP_TESTNET_URL=https://test.near.org/awesomebos.testnet/widget/AwesomeBOS && open $APP_TESTNET_URL && echo \"Preview at: $APP_TESTNET_URL\"",
+    "dev": "yarn start:testnet && bos-loader awesomebos.testnet --path src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awesome-bos/bos-components.git"
+  },
+  "keywords": [
+    "awesome",
+    "bos",
+    "component"
+  ],
+  "author": "awesome-bos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/awesome-bos/bos-components/issues"
+  },
+  "homepage": "https://github.com/awesome-bos/bos-components#readme",
+  "engines": {
+    "node": ">=14"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": false,
+    "trailingComma": "es5"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8"
+  }
+}

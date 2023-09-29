@@ -1,0 +1,23 @@
+name: Preview
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+  pull_request:
+    paths:
+      - 'src/**'
+
+jobs:
+  testnet-deploy:
+    name: testnet preview
+    uses: ./.github/workflows/deploy.yml
+    with:
+      network: testnet
+      deploy-account-address: ${{ vars.TESTNET_DEPLOY_ACCOUNT }}
+      signer-account-address: ${{ vars.TESTNET_DEPLOY_ACCOUNT }}
+      signer-public-key: ${{ vars.TESTNET_SIGNER_PUBLIC_KEY }}
+    secrets:
+      SIGNER_PRIVATE_KEY: ${{ secrets.TESTNET_SIGNER_PRIVATE_KEY }}
