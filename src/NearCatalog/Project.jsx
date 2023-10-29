@@ -1,4 +1,7 @@
 const Css = styled.div`
+.embed-responsive-item{
+    width: 103%;
+}
 h1{font-size:2em;margin:.67em 0;}
 a{background-color:transparent;-webkit-text-decoration-skip:objects;}
 a:active,a:hover{outline-width:0;}
@@ -205,30 +208,50 @@ a.text-gray:visited{color:#959595;}
   }
 `;
 
+if (!props.id) {
+    return "404 :<";
+}
+const project = Social.getr("legacy-awesome.near/project/" + props.id?.trim(), "final");
+if (!project) {
+    return "loading...........";
+}
+console.log("project info: ", project);
+
+const tags = project.profile.tags;
+const tokenInfo = project.profile.tokenInfo ? project.profile.tokenInfo : {
+    ticket: "REF",
+    address: {
+        near: "token.v2.ref-finance.near",
+        aurora: "0x221292443758f63563a1ed04b547278b05845fcb"
+    },
+}
+
+const cgcIframe = `
+    <script src="https://widgets.coingecko.com/coingecko-coin-price-static-headline-widget.js"></script>
+    <coingecko-coin-price-static-headline-widget  coin-ids=${props.id} currency="usd" locale="en" background-color="#ffffff"></coingecko-coin-price-static-headline-widget>
+`;
+
+const twtIframe = `
+<div align="center"><a class="twitter-timeline"  data-dnt="true"  data-tweet-limit="5"
+ href="https://twitter.com/${project.profile.linktree?.twitter}">Twitter</a>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+`
 return (
     <Css>
         <div className="container grid-xl near-bg">
             <div className="columns">
                 <div className="hero-container column col-md-12">
-                    <div className="awesome-breadcrumb text-assistive">
-                        <ol className="breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
-                            <li className="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
-                                <a itemscope="" itemtype="https://schema.org/WebPage" itemprop="item" itemid="https://awesomenear.com" href="https://web.archive.org/web/20230521202119/https://awesomenear.com/"><span itemprop="name">Home</span></a>
-                            </li>
-                            <li className="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
-                                <a itemscope="" itemtype="https://schema.org/WebPage" itemprop="item" itemid="https://awesomenear.com/en/projects" href="https://web.archive.org/web/20230521202119/https://awesomenear.com/en/projects"><span itemprop="name">Projects</span></a>
-                            </li>
-                            <li className="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
-                                <a itemscope="" itemtype="https://schema.org/WebPage" itemprop="item" itemid="https://awesomenear.com/en/ref-finance" href="https://web.archive.org/web/20230521202119/https://awesomenear.com/en/ref-finance"><span itemprop="name">Ref Finance</span></a>
-                            </li>
-                        </ol>
-                    </div>
+
                     <div className="awesome-hero">
-                        <div className="hero-img"><img src="https://web.archive.org/web/20230521202119im_/https://awesomenear-spaces.fra1.digitaloceanspaces.com/production/projects/ref-finance/ref-finance.jpg" alt="Ref Finance" loading="lazy" /></div>
+                        <div className="hero-img">
+                            <img src={project.profile.image.url} alt={project.profile.name} /></div>
+
                         <div className="hero-content">
-                            <h1 className="hero-title">Ref Finance <small>(REF)</small></h1>
-                            <h2 className="hero-subtitle">Multi-purpose DeFi platform built on NEAR Protocol.</h2>
-                            <div className="hero-series">
+                            <h1 className="hero-title">{project.profile.name} <small>(REF)</small></h1>
+                            <h2 className="hero-subtitle">{project.profile.tagline}</h2>
+
+                            {/* <div className="hero-series">
                                 <h3 className="tooltip label-series trending" data-tooltip="TRENDING">
                                     <span className="text-assistive">Ref Finance on </span>
                                     <svg className="icon iconSeries" height="20" width="20">
@@ -250,72 +273,98 @@ return (
                                     </svg>
                                     AURORA
                                 </h3>
-                            </div>
-                            <div className="hero-tags"><a className="tag-item awesome-tag" title="NEAR-based EVM compatible Aurora ecosystem." href="/web/20230521202119/https://awesomenear.com/categories/aurora"><span className="text-assistive">Explore NEAR Protocol and Aurora </span>Aurora<span className="text-assistive"> projects and DApps</span></a><a className="tag-item awesome-tag" title="DApps building on NEAR and Aurora ecosystem." href="/web/20230521202119/https://awesomenear.com/categories/dapps"><span className="text-assistive">Explore NEAR Protocol and Aurora </span>DApps<span className="text-assistive"> projects and DApps</span></a><a className="tag-item awesome-tag" title="DeFi projects and DApps on NEAR and Aurora." href="/web/20230521202119/https://awesomenear.com/categories/defi"><span className="text-assistive">Explore NEAR Protocol and Aurora </span>DeFi<span className="text-assistive"> projects and DApps</span></a><a className="tag-item awesome-tag" title="DEX projects building on NEAR and Aurora ecosystem." href="/web/20230521202119/https://awesomenear.com/categories/dex"><span className="text-assistive">Explore NEAR Protocol and Aurora </span>DEX<span className="text-assistive"> projects and DApps</span></a><a className="tag-item awesome-tag" title="Crypto Exchanges and DEX projects building on NEAR and Aurora." href="/web/20230521202119/https://awesomenear.com/categories/exchanges"><span className="text-assistive">Explore NEAR Protocol and Aurora </span>Exchanges<span className="text-assistive"> projects and DApps</span></a></div>
-                        </div>
-                        <div className="hero-actions">
-                            <h2 className="text-assistive">Ref Finance official website and Twitter, Facebook, Medium, GitHub, LinkedIn, Telegram, Discord links</h2>
-                            <div className="hero-links">
-                                <div className="btn-group"><a href="https://web.archive.org/web/20230521202119/https://ref.finance/" target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-primary">Visit Website<span className="text-assistive"> Ref Finance Official Website</span></a><a href="https://web.archive.org/web/20230521202119/https://app.ref.finance/" target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-primary" title="Open DApp"><span className="text-assistive">Ref Finance</span>DApp</a></div>
-                                <a href="https://web.archive.org/web/20230521202119/https://app.ref.finance/#wrap.near|token.v2.ref-finance.near" target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-primary">Buy<span className="text-assistive"> REF Ref Finance </span><small className="ml-1">via Ref</small></a>
-                                <div className="btn-group">
-                                    <a href="##" target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg" title="Share to Twitter">Share</a>
-                                    <div className="link-item btn btn-lg dropdown dropdown-right dropdown-toggle c-hand" tabindex="0">
-                                        <svg className="icon iconMore" height="20" width="20">
+                            </div> */}
 
-                                        </svg>
+                        </div>
+
+                        <div className="hero-actions">
+
+                            <div className="hero-links">
+
+                                <div className="btn-group">
+                                    {
+                                        project.profile.linktree.website && (
+                                            <a href={project.profile.linktree.website} target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-primary">Website</a>
+                                        )
+                                    }
+                                    {
+                                        project.profile.linktree.twitter && (
+                                            <a href={project.profile.linktree.twitter} target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-primary" title="Open DApp">Twitter (X) </a>
+                                        )
+                                    }
+                                </div>
+
+                                {/* <a href="" target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-primary">Buy<small className="ml-1">via Ref</small></a> */}
+
+                                <div className="btn-group">
+                                    {/* <a href="##" target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg" title="Share to Twitter">Share</a> */}
+
+                                    <div className="link-item btn btn-lg dropdown dropdown-right dropdown-toggle c-hand" tabindex="0">
+                                        <i class="bi bi-three-dots-vertical"></i>
                                         <ul className="menu">
-                                            <li className="menu-item"><a href="https://web.archive.org/web/20230521202119/https://forms.gle/YYvBQAW9ptLs1k7W9" target="_blank" rel="noopener noreferrer" title="Report inaccurate data via Google Forms">Inaccurate data?</a></li>
-                                            <li className="menu-item"><a target="_blank" href="/web/20230521202119/https://awesomenear.com/user/projects/401b8b2d-3a4b-4e18-b608-98e2339a055c">Edit project</a></li>
-                                            <li className="divider" data-content="Last Updated"></li>
-                                            <li className="menu-item"><span className="text-small">Mon, 27 Feb 2023 08:45:53 GMT</span></li>
+                                            <li className="menu-item">
+                                                <a href="" target="_blank" rel="noopener noreferrer" title="Report">Report or give feedback</a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
+
                             <div className="hero-links">
-                                <a href="https://web.archive.org/web/20230521202119/https://twitter.com/finance_ref" target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-link" title="Twitter">
-                                    <svg className="icon iconTwitter" height="20" width="20">
+                                {
+                                    project.profile.linktree.twitter && (
+                                        <a href={project.profile.linktree.twitter} target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-link" title="Twitter">
+                                            <i class="bi bi-twitter-x"></i>
+                                        </a>)
+                                }
 
-                                    </svg>
-                                    <h3 className="text-assistive">Ref Finance Twitter</h3>
-                                </a>
-                                <a href="https://web.archive.org/web/20230521202119/https://ref-finance.medium.com/" target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-link" title="Medium">
-                                    <svg className="icon iconMediun" height="20" width="20">
+                                {
+                                    project.profile.linktree.medium && (
+                                        <a href={project.profile.linktree.medium} target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-link" title="Medium, blog, news, tutorials, and announcements">
+                                            <i class="bi bi-medium"></i>
+                                        </a>
+                                    )
+                                }
 
-                                    </svg>
-                                    <h3 className="text-assistive">Ref Finance Medium, blog, news, tutorials, and announcements</h3>
-                                </a>
-                                <a href="https://web.archive.org/web/20230521202119/https://t.me/ref_finance" target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-link" title="Telegram">
-                                    <svg className="icon iconTelegram" height="20" width="20">
+                                {
+                                    project.profile.linktree.telegram && (
+                                        <a href={project.profile.linktree.telegram} target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-link" title="Telegram groups and channels">
+                                            <i class="bi bi-telegram"></i>
+                                        </a>
+                                    )
+                                }
+                                {
+                                    project.profile.linktree.github && (
+                                        <a href={project.profile.linktree.github} target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-link" title="GitHub, Open source org, Source code repos">
+                                            <i class="bi bi-github"></i>
+                                        </a>
+                                    )
+                                }
+                                {
+                                    project.profile.linktree.linkedin && (
+                                        <a href={project.profile.linktree.linkedin} target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-link" title="Ref Finance LinkedIn company page">
+                                            <i class="bi bi-linkedin"></i>
+                                        </a>
+                                    )
+                                }
 
-                                    </svg>
-                                    <h3 className="text-assistive">Ref Finance Telegram groups and channels</h3>
-                                </a>
-                                <a href="https://web.archive.org/web/20230521202119/https://github.com/ref-finance" target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-link" title="GitHub, Open source org, Source code repos">
-                                    <svg className="icon iconGithub" height="20" width="20">
+                                {
+                                    project.profile.linktree.astrodao && (
+                                        <a href={project.profile.linktree.astrodao} target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-link" title="AstroDAO">
+                                            <i class="bi bi-people-fill"></i>
+                                        </a>
+                                    )
+                                }
 
-                                    </svg>
-                                    <h3 className="text-assistive">Ref Finance GitHub developers and source code</h3>
-                                </a>
-                                <a href="https://web.archive.org/web/20230521202119/https://www.linkedin.com/company/ref-finance/" target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-link" title="LinkedIn">
-                                    <svg className="icon iconLinkedin" height="20" width="20">
+                                {
+                                    project.profile.linktree.whitepaper && (
+                                        <a href={project.profile.linktree.whitepaper} target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-link" title="Whitepaper">
+                                            <i class="bi bi-journal-code"></i>
+                                        </a>
+                                    )
+                                }
 
-                                    </svg>
-                                    <h3 className="text-assistive">Ref Finance LinkedIn company page</h3>
-                                </a>
-                                <a href="https://web.archive.org/web/20230521202119/https://app.astrodao.com/dao/ref-finance.sputnik-dao.near" target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-link" title="AstroDAO">
-                                    <svg className="icon iconAstrodao" height="20" width="20">
 
-                                    </svg>
-                                    <h3 className="text-assistive">Ref Finance AstroDAO and DAO link</h3>
-                                </a>
-                                <a href="https://web.archive.org/web/20230521202119/https://guide.ref.finance/" target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-link" title="Whitepaper Documents">
-                                    <svg className="icon iconWhitepaper" height="20" width="20">
-
-                                    </svg>
-                                    <h3 className="text-assistive">Ref Finance Documents Whitepaper Litepaper Tokenomics Token Allocation</h3>
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -327,90 +376,83 @@ return (
                         <div className="column col-lg-12 col-8">
                             <div className="near-content">
                                 <div className="content-widget markdown">
-                                    <h2 className="content-title">About Ref Finance</h2>
-                                    <h3 className="text-assistive">What is Ref Finance and how does it work? What is Ref Finance token REF how is it used? Where can I get Ref Finance REF tokens? What are the key features and benefits of Ref Finance? How can I learn more about Ref Finance and stay up-to-date?</h3>
-                                    <p>Ref Finance is a community-led, multi-purpose DeFi platform built on NEAR Protocol. Ref Finance takes full advantage of Near’s low fees, onE-to-two second finality, and WebAssembly-based runtime (hello, Rust smart contracts!).</p>
-                                    <p>In addition to the advantages of being built on top of NEAR, Ref Finance provides:</p>
-                                    <ul>
-                                        <li>Multiple pools in onE contract</li>
-                                        <li>Atomic transactions</li>
-                                        <li>Customisable pool fee</li>
-                                    </ul>
-                                    <div className="content-grants">
-                                        <span className="content-grants-title mr-2"><strong>Grants</strong>:</span>
-                                        <div className="tooltip label-grants near" data-tooltip="Received NEAR Grant">
-                                            <svg className="icon iconGrants" height="20" width="20">
+                                    <h2 className="content-title">About {project.profile.name}</h2>
 
-                                            </svg>
-                                            NEAR Grant
-                                        </div>
-                                        <div className="tooltip label-grants proximity" data-tooltip="Received Proximity Grant">
-                                            <svg className="icon iconGrants" height="20" width="20">
+                                    {project.profile.description}
 
-                                            </svg>
-                                            Proximity Grant
-                                        </div>
-                                    </div>
-                                    <h3 className="text-assistive">Who invested in Ref Finance? Ref Finance Funding, Financials, Valuation  Investors</h3>
-                                    <p><strong>Investors</strong>: <small>Alameda Research, D1 Ventures, KuCoin, Jump Crypto, Dragonfly Capital Partners, Block Dream Fund, Move Capital, SevenX Ventures,  WOO Network, Puzzle Ventures</small></p>
+                                
                                 </div>
                             </div>
                             <div className="near-content">
                                 <div className="content-widget article-widget">
-                                    <h2 className="content-title">Ref Finance News</h2>
-                                    <h3 className="text-assistive">Ref Finance funding news, strategic partnership news, announcements, product updates, tutorials articles, how-to, and guides</h3>
+                                    <h2 className="content-title">{project.profile.name} News</h2>
+
                                     <div className="articles-container">
-                                        <a className="article-item" target="_blank" title="Orderbook Launch on Ref: Trading Competition with Orderly Network" href="/web/20230521202119/https://awesomenear.com/articles/orderbook-launch-on-ref-trading-competition-with-orderly-network">
-                                            <img className="article-image" src="https://web.archive.org/web/20230521202119im_/https://awesomenear-spaces.fra1.digitaloceanspaces.com/production/articles/orderbook-launch-on-ref-trading-competition-with-orderly-network/1*oMmOebBPlfG2lbyyMUQFjQ.jpeg" alt="Orderbook Launch on Ref: Trading Competition with Orderly Network" loading="lazy" />
+
+                                        <a className="article-item" target="_blank" title="" href="">
+                                            <img className="article-image" src="https://i.near.social/thumbnail/https://ipfs.near.social/ipfs/bafkreibzr4z3kvjh52hea4quob4qyeodgv7wvjizoezwfms44tv5qrftum"
+                                                alt="" />
                                             <div className="article-detail">
                                                 <h3 className="article-title">Orderbook Launch on Ref: Trading Competition with Orderly Network</h3>
                                                 <div className="article-info">March 30, 2023</div>
                                             </div>
                                         </a>
+
+
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                         <div className="column col-lg-12 col-4">
                             <div className="near-content">
                                 <div className="content-widget chart-widget">
-                                    <h2 className="content-title">Ref Finance Token Stats<span className="text-assistive">Chart</span></h2>
+
+                                    <h2 className="content-title">{project.profile.name} Token Stats</h2>
+
                                     <div className="stats-widget">
-                                        <h3 className="stats-widget-symbol h4"><span className="text-assistive">Ref Finance Token Symbol is</span>REF</h3>
+                                        {/* <h3 className="stats-widget-symbol h4"><span className="text-assistive">Ref Finance Token Symbol is</span>REF</h3>
                                         <h3><span className="text-assistive">REF Price Today</span></h3>
                                         <div className="stats-widget-value h4" style={{ color: 'rgba(51, 51, 51, 0.25)', }}>$0.102966
+                                        </div> */}
+                                        <div class="embed-responsive embed-responsive-4by3">
+                                            <iframe srcDoc={cgcIframe} className="embed-responsive-item" />
                                         </div>
                                     </div>
-                                    <div className="stats-widget">
-                                        <h3 className="stats-widget-label"><span className="text-assistive">REF </span>Total Supply</h3>
-                                        <div className="stats-widget-value">100,000,000</div>
-                                    </div>
-                                    <div className="stats-widget">
-                                        <div className="stats-widget-source">Data Source : <a href="https://web.archive.org/web/20230521202119/https://www.coingecko.com/coins/ref-finance" target="_blank" rel="noopener noreferrer" className="text-gray">CoinGecko</a></div>
-                                    </div>
+
                                 </div>
                             </div>
+
                             <div className="near-content">
                                 <div className="content-widget">
-                                    <h2 className="content-title">REF Token Contract</h2>
+                                    <h2 className="content-title">Token Contract</h2>
+
                                     <div className="token-widget">
-                                        <h3 className="token-widget-label"><span className="text-assistive">REF is deployed on the NEAR Chain (NEP-141). Find the Ref Finance (REF) NEAR contract address details below.</span>NEAR Chain (NEP-141)<a href="https://web.archive.org/web/20230521202119/https://explorer.near.org/accounts/token.v2.ref-finance.near" target="_blank" rel="noopener noreferrer" className="text-gray ml-2" title="NEAR Explorer">↗</a></h3>
-                                        <div className="token-widget-value">token.v2.ref-finance.near</div>
+                                        <h3 className="token-widget-label">
+                                            NEAR Chain (NEP-141)
+                                            <a href={`https://nearblocks.io/address/${tokenInfo.address.near}`} target="_blank" rel="noopener noreferrer" className="text-gray ml-2" title="NEAR Explorer">↗</a>
+                                        </h3>
+                                        <div className="token-widget-value">{tokenInfo.address.near}</div>
                                     </div>
+
                                     <div className="token-widget">
-                                        <h3 className="token-widget-label"><span className="text-assistive">Ref Finance is deployed on the Aurora Chain. Find the Ref Finance (REF) Aurora contract address details below.</span>Aurora Chain<a href="https://web.archive.org/web/20230521202119/https://aurorascan.dev/address/0x221292443758f63563a1ed04b547278b05845fcb" target="_blank" rel="noopener noreferrer" className="text-gray ml-2" title="Aurorascan Explorer">↗</a></h3>
-                                        <div className="token-widget-value">0x221292443758f63563a1ed04b547278b05845fcb</div>
+                                        <h3 className="token-widget-label">
+                                            Aurora Chain
+                                            <a href={`https://explorer.aurora.dev/${tokenInfo.address.aurora}`} target="_blank" rel="noopener noreferrer" className="text-gray ml-2" title="Aurorascan Explorer">↗</a></h3>
+                                        <div className="token-widget-value">{tokenInfo.address.aurora}</div>
                                     </div>
                                 </div>
                             </div>
+
                             <div className="near-content">
                                 <div className="content-widget twitter-widget">
                                     <h2 className="content-title">Ref Finance Twitter</h2>
-                                    <div>
-                                        <div twdiv="yes"></div>
+                                    <div className="twitter-content embed-responsive embed-responsive-4by3" >
+                                        <iframe  style={{minHeight:"500px", width:"103%"}} srcDoc={twtIframe} className="embed-responsive-item" />
                                     </div>
                                 </div>
                             </div>
+
                             <div className="near-content">
                                 <div className="content-widget related-widget">
                                     <h2 className="content-title">Related Projects</h2>

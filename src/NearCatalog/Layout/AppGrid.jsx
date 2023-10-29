@@ -1,4 +1,5 @@
 const componentPath = props.componentPath;
+const projects = props.projects;
 return (
     <div className="container near-bg" id="awesomebos-wrap">
         <div className="row">
@@ -19,7 +20,7 @@ return (
                 <div id="bos-search-input" class="input-group">
                     <input class="form-control " type="text" placeholder="🔭 🔍 Explore NEAR" />
                 </div>
-                
+
 
                 <button className="awesome-aside-select btn btn-lg mt-3" id="btn-mobile-show-category"
                     data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
@@ -36,26 +37,41 @@ return (
 
                             {/* 1 item  */}
                             {
-                                Array(12).fill(" ").map((v, k) => {
+                                Object.keys(projects).map(( e ) => {
+                                    console.log("E: " , e) ;
+                                    let p  = projects[e];
+
                                     return (
 
                                         <div className="near-item-wrap col-md-4 col-sm-12 p-3">
-                                            <a className="near-item" target="_blank" title="Dragonfly Capital Partners" 
-                                            href={`/${componentPath}.Project.Item`}>
+                                            <a className="near-item" target="_blank" title={p.name}
+                                                href={`/${componentPath}.Project?id=${e}`}>
                                                 <div className="near-item-header">
                                                     <div className="tile">
-                                                        <div className="tile-icon"><img src="https://web.archive.org/web/20230521202123im_/https://awesomenear-spaces.fra1.digitaloceanspaces.com/production/projects/dragonfly-capital-partners/dragonfly-capital-partners.jpg" alt="Dragonfly Capital Partners" loading="lazy" /></div>
+                                                        <div className="tile-icon">
+                                                            <img src={p.profile.image?.url || "https://static.mediacdn.vn/genk/web_images/logogenk.svg" } 
+                                                            alt={p.profile.name} loading="lazy" /></div>
                                                         <div className="tile-content">
-                                                            <h2 className="tile-title">Dragonfly Capital Partners</h2>
-                                                            <div className="tile-tags"><span title="Funding programs, venture capitals and ecosystem funds on NEAR and Aurora ecosystem.">Funding</span><span title="NEAR validator nodes producing blocks and securing the NEAR network.">Validators</span></div>
+                                                            <h2 className="tile-title">{p.profile.name}</h2>
+                                                            <div className="tile-tags">
+                                                            {
+                                                                Object.keys(p.profile.tags).length > 0 && Object.keys(p.profile.tags).map( e => {
+                                                                   return(
+                                                                        <span title={e}>{e}</span>
+                                                                   )
+                                                                } )
+                                                            }
+                                                            </div>
+            
                                                         </div>
                                                     </div>
 
                                                     <div className="tile my-2">
-                                                        <h3 className="tile-subtitle">Global from day one. Global from day one.Global from day one.Global from day one.Global from day one.</h3>
+                                                        <h3 className="tile-subtitle">{p.profile.tagline}</h3>
                                                     </div>
                                                 </div>
-                                                <div className="near-item-footer">
+
+                                                {/* <div className="near-item-footer">
                                                     <div className="tile-social">
                                                         <svg className="icon" height="20" width="20"></svg>
                                                     </div>
@@ -64,7 +80,7 @@ return (
                                                             <svg className="icon iconSeries" height="20" width="20"></svg>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </a>
                                         </div>
                                     )

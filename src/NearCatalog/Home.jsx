@@ -1,8 +1,9 @@
 
-const owner = "cuongdcdev.testnet";
-const componentPath = `${owner}/widget/AwesomeBOS`;
+const owner = "cuongdcdev.near";
+const componentPath = `${owner}/widget/NearCatalog`;
 
 const Css = styled.div`
+html{font-size:20px;}
 .near-bg:before {
   background: linear-gradient(270deg,#fff0e2 35%,#d7dbff);
   right: 15vh;
@@ -107,7 +108,7 @@ const Css = styled.div`
 }
 
 .near-item .tile-subtitle {
-    font-size: .65rem;
+    font-size: .85rem;
     line-height: 1rem;
     max-height: 2rem;
     overflow: hidden;
@@ -194,12 +195,21 @@ const Css = styled.div`
 .aside-container .awesome-aside-select .btn{font-size:.7rem;font-weight:400;justify-content:space-between;position:relative;z-index:9;}
 `;
 
+const projects = Social.getr("legacy-awesome.near/project", "final");
+
+if(!projects ){
+  console.log("still loading.....");
+  return;
+}
+console.log("projects" , projects);
+
 return (
   <>
     <Css>
 
      <Widget src={`${componentPath}.Layout.AppGrid`} props={{
       componentPath:componentPath,
+      projects: projects
      }} />
 
     </Css>
