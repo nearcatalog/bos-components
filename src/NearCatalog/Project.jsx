@@ -446,7 +446,7 @@ return (
 
                             <div className="near-content">
                                 <div className="content-widget twitter-widget">
-                                    <h2 className="content-title">Ref Finance Twitter</h2>
+                                    <h2 className="content-title">{project.profile.name} Twitter</h2>
                                     <div className="twitter-content embed-responsive embed-responsive-4by3" >
                                         <iframe  style={{minHeight:"500px", width:"103%"}} srcDoc={twtIframe} className="embed-responsive-item" />
                                     </div>
