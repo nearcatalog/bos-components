@@ -119,7 +119,7 @@ a.text-gray:visited{color:#959595;}
 @media screen and (max-width:960px){
 .awesome-hero .hero-links{justify-content:flex-start;}
 }
-.awesome-hero .hero-links .link-item{align-items:center;display:inline-flex;height:2rem;font-size:.7rem;margin-bottom:.2rem;margin-right:.2rem;text-decoration:none;}
+.awesome-hero .hero-links .link-item{align-items:center;display:inline-flex;height:2rem;font-size:.9rem;margin-bottom:.2rem;margin-right:.2rem;text-decoration:none;}
 .awesome-hero .hero-links .link-item span{line-height:1;margin-left:.4rem;}
 .awesome-hero .hero-links .link-item small{opacity:.5;}
 .awesome-hero .hero-links .link-item.btn.btn-lg{padding:.3rem .5rem;}
@@ -137,7 +137,7 @@ a.text-gray:visited{color:#959595;}
 .label-series.near{background:rgba(38,38,38,.075);color:#262626;}
 .label-series.aurora{background:rgba(120,214,75,.2);color:#5dc22c;}
 .section-project .awesome-hero .hero-content{max-width:600px;}
-.near-content .content-widget{background:#fff;border:.05rem solid #eee;border-radius:.8rem;box-shadow:0 .1rem 1.4rem rgba(34,34,34,.05);font-size:.8rem;margin-bottom:1rem;padding:2rem;}
+.near-content .content-widget{background:#fff;border:.05rem solid #eee;border-radius:.8rem;box-shadow:0 .1rem 1.4rem rgba(34,34,34,.05);font-size:1rem;margin-bottom:1rem;padding:2rem;}
 .near-content .twitter-widget{padding-bottom:.5rem;}
 .near-content .related-widget .content-body{margin:auto -.5rem;}
 @media screen and (max-width:600px){
@@ -208,6 +208,11 @@ a.text-gray:visited{color:#959595;}
   }
 `;
 
+
+const owner = "cuongdcdev.near";
+const componentPath = `${owner}/widget/NearCatalog`;
+
+
 if (!props.id) {
     return "404 :<";
 }
@@ -218,23 +223,37 @@ if (!project) {
 console.log("project info: ", project);
 
 const tags = project.profile.tags;
-const tokenInfo = project.profile.tokenInfo ? project.profile.tokenInfo : {
-    ticket: "REF",
-    address: {
-        near: "token.v2.ref-finance.near",
-        aurora: "0x221292443758f63563a1ed04b547278b05845fcb"
-    },
-}
+// const tokenInfo = project.profile.tokens ? project.profile.tokens : {
+//     ticket: "REF",
+//     address: {
+//         near: "token.v2.ref-finance.near",
+//         aurora: "0x221292443758f63563a1ed04b547278b05845fcb"
+//     },
+// }
 
-const cgcIframe = `
-    <script src="https://widgets.coingecko.com/coingecko-coin-price-static-headline-widget.js"></script>
-    <coingecko-coin-price-static-headline-widget  coin-ids=${props.id} currency="usd" locale="en" background-color="#ffffff"></coingecko-coin-price-static-headline-widget>
-`;
+const tokenTicket = project.profile.tokens ? Object.keys(project.profile.tokens)[0] : false;
+const tokenInfo = tokenTicket && project.profile.tokens ? project.profile.tokens[tokenTicket] : {}
+console.log("token info: ", tokenInfo, "ticket: ", tokenTicket);
+
+
+// const cgcIframe = `
+//     <script src="https://widgets.coingecko.com/coingecko-coin-price-static-headline-widget.js"></script>
+//     <coingecko-coin-price-static-headline-widget  coin-ids=${props.id} currency="usd" locale="en" background-color="#ffffff"></coingecko-coin-price-static-headline-widget>
+// `;
 
 const twtIframe = `
 <div align="center"><a class="twitter-timeline"  data-dnt="true"  data-tweet-limit="5"
  href="https://twitter.com/${project.profile.linktree?.twitter}">Twitter</a>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script>
+twttr.ready(function (twttr) {
+    // Now bind our custom intent events
+    twttr.events.bind('click', (event)=>{
+        console.log("twt click" , event);
+
+    });
+});
+</script>
 </div>
 `
 return (
@@ -248,7 +267,7 @@ return (
                             <img src={project.profile.image.url} alt={project.profile.name} /></div>
 
                         <div className="hero-content">
-                            <h1 className="hero-title">{project.profile.name} <small>(REF)</small></h1>
+                            <h1 className="hero-title">{project.profile.name} {tokenTicket && <small>({tokenTicket})</small>}  </h1>
                             <h2 className="hero-subtitle">{project.profile.tagline}</h2>
 
                             {/* <div className="hero-series">
@@ -377,10 +396,12 @@ return (
                             <div className="near-content">
                                 <div className="content-widget markdown">
                                     <h2 className="content-title">About {project.profile.name}</h2>
+                                    <div className="content-desc">
 
-                                    {project.profile.description}
-
-                                
+                                        {project.profile?.description.split('\n').map((item, key) => {
+                                            return <span key={key}>{item}<br /></span>
+                                        })}
+                                    </div>
                                 </div>
                             </div>
                             <div className="near-content">
@@ -405,53 +426,77 @@ return (
                             </div>
                         </div>
                         <div className="column col-lg-12 col-4">
-                            <div className="near-content">
-                                <div className="content-widget chart-widget">
+                            {
+                                tokenTicket && <div className="near-content">
+                                    <div className="content-widget chart-widget">
 
-                                    <h2 className="content-title">{project.profile.name} Token Stats</h2>
+                                        <h2 className="content-title">{project.profile.name} Token Stats</h2>
 
-                                    <div className="stats-widget">
-                                        {/* <h3 className="stats-widget-symbol h4"><span className="text-assistive">Ref Finance Token Symbol is</span>REF</h3>
-                                        <h3><span className="text-assistive">REF Price Today</span></h3>
-                                        <div className="stats-widget-value h4" style={{ color: 'rgba(51, 51, 51, 0.25)', }}>$0.102966
-                                        </div> */}
-                                        <div class="embed-responsive embed-responsive-4by3">
-                                            <iframe srcDoc={cgcIframe} className="embed-responsive-item" />
+                                        <div className="stats-widget">
+                                            <div class="embed-responsive embed-responsive-4by3">
+                                                <Widget src={`${componentPath}.Layout.PriceWidget`} props={tokenInfo} />
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+
+                            {
+                                (tokenInfo.address.near || tokenInfo.address.aurora || tokenInfo.address.ethereum) && <div className="near-content">
+                                    <div className="content-widget">
+                                        <h2 className="content-title">Token Contract</h2>
+
+                                        {
+                                            tokenInfo.address.near && <div className="token-widget">
+                                                <h3 className="token-widget-label">
+                                                    NEAR Chain (NEP-141)
+                                                    <a href={`https://nearblocks.io/address/${tokenInfo.address.near}`} target="_blank" rel="noopener noreferrer" className="text-gray ml-2" title="NEAR Explorer">↗</a>
+                                                </h3>
+                                                <div className="token-widget-value">{tokenInfo.address.near}</div>
+                                            </div>
+                                        }
+
+                                        {
+                                            tokenInfo.address.aurora && <div className="token-widget">
+                                                <h3 className="token-widget-label">
+                                                    Aurora Chain
+                                                    <a href={`https://explorer.aurora.dev/address/${tokenInfo.address.aurora}`} target="_blank" rel="noopener noreferrer" className="text-gray ml-2" title="Aurorascan Explorer">↗</a></h3>
+                                                <div className="token-widget-value">{tokenInfo.address.aurora}</div>
+                                            </div>
+                                        }
+
+
+                                        {
+                                            tokenInfo.address.ethereum && <div className="token-widget">
+                                                <h3 className="token-widget-label">
+                                                    Ethereum
+                                                    <a href={`https://etherscan.io/address/${tokenInfo.address.ethereum}`} target="_blank" rel="noopener noreferrer" className="text-gray ml-2" title="Etherscan">↗</a></h3>
+                                                <div className="token-widget-value">{tokenInfo.address.ethereum}</div>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            }
+
+                            {
+                                project.profile.linktree.twitter && <div className="near-content">
+                                    <div className="content-widget twitter-widget">
+                                        {
+                                            <h2 className="content-title">
+                                                <a href={project.profile.linktree.twitter} target="_blank" rel="noopener noreferrer" title="Twitter">
+                                                    <i class="bi bi-twitter-x"></i>
+                                                    {project.profile.name} Twitter
+                                                </a>
+                                            </h2>
+                                        }
+                                        <div className="twitter-content embed-responsive embed-responsive-4by3" >
+                                            <iframe style={{ minHeight: "500px", width: "103%" }} srcDoc={twtIframe} className="embed-responsive-item" />
                                         </div>
                                     </div>
-
                                 </div>
-                            </div>
-
-                            <div className="near-content">
-                                <div className="content-widget">
-                                    <h2 className="content-title">Token Contract</h2>
-
-                                    <div className="token-widget">
-                                        <h3 className="token-widget-label">
-                                            NEAR Chain (NEP-141)
-                                            <a href={`https://nearblocks.io/address/${tokenInfo.address.near}`} target="_blank" rel="noopener noreferrer" className="text-gray ml-2" title="NEAR Explorer">↗</a>
-                                        </h3>
-                                        <div className="token-widget-value">{tokenInfo.address.near}</div>
-                                    </div>
-
-                                    <div className="token-widget">
-                                        <h3 className="token-widget-label">
-                                            Aurora Chain
-                                            <a href={`https://explorer.aurora.dev/${tokenInfo.address.aurora}`} target="_blank" rel="noopener noreferrer" className="text-gray ml-2" title="Aurorascan Explorer">↗</a></h3>
-                                        <div className="token-widget-value">{tokenInfo.address.aurora}</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="near-content">
-                                <div className="content-widget twitter-widget">
-                                    <h2 className="content-title">{project.profile.name} Twitter</h2>
-                                    <div className="twitter-content embed-responsive embed-responsive-4by3" >
-                                        <iframe  style={{minHeight:"500px", width:"103%"}} srcDoc={twtIframe} className="embed-responsive-item" />
-                                    </div>
-                                </div>
-                            </div>
+                            }
 
                             <div className="near-content">
                                 <div className="content-widget related-widget">
