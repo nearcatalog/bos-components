@@ -82,9 +82,7 @@ html{font-size:20px;}
 
 .near-item .tile-tags {
   font-size: .6rem;
-  height: 1rem;
   padding-top: 0.1rem;
-  white-space: nowrap;
 }
 
 .near-item .tile-icon, .near-item .tile-icon img {
@@ -96,8 +94,11 @@ html{font-size:20px;}
 
 .near-item .tile-tags span {
   border-radius: 0.8rem;
-  color: #888;
   display: inline-block;
+  text-transform: lowercase;
+  margin-right: 2px;
+  opacity: 0.8;
+  
 }
 
 .near-item .tile-tags, .near-item .tile-title{
@@ -110,7 +111,7 @@ html{font-size:20px;}
 .near-item .tile-subtitle {
     font-size: .85rem;
     line-height: 1rem;
-    max-height: 2rem;
+    max-height: 8rem;
     overflow: hidden;
     text-overflow: ellipsis;
 }

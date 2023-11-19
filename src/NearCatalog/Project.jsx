@@ -183,6 +183,11 @@ a.text-gray:visited{color:#959595;}
 .articles-container .article-detail{display:flex;flex-direction:column;}
 .articles-container .article-title{padding-left:.2rem;font-weight:700;font-size:.7rem;}
 .articles-container .article-info{color:#888;padding-left:.2rem;font-weight:400;font-size:.6rem;}
+.tile-tags .badge{
+    text-transform:lowercase;
+    margin-right:5px;
+    opacity:0.8;
+}
 /*! CSS Used keyframes */
 @keyframes slide-down{0%{opacity:0;transform:translateY(-1.6rem);}to{opacity:1;transform:translateY(0);}}
 .near-bg:before {
@@ -200,8 +205,6 @@ a.text-gray:visited{color:#959595;}
     width: 50vh;
     z-index: -1;
   }
-  
-  
   .near-bg:after {
     background: linear-gradient(180deg,#e1d7ff 25%,#e1f4f8);
     bottom: 10vh;
@@ -247,12 +250,23 @@ const twtIframe = `
  href="https://twitter.com/${project.profile.linktree?.twitter}">Twitter</a>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <script>
-twttr.ready(function (twttr) {
-    twttr.events.bind('click', (event)=>{
-        console.log("twt click" , event);
+window.onload = function(){
+    console.log("window onload!");
+    twttr.ready(function (twttr) {
+        console.log("twt ready!");
+        
+        twttr.events.bind('click', (event)=>{
+            console.log("twt click" , event);
+        });
+
+        twttr.events.bind('tweet', (e) => {
+            console.log("twt tweet" , e);
+        });
+
 
     });
-});
+}
+
 </script>
 </div>
 `
@@ -269,6 +283,15 @@ return (
                         <div className="hero-content">
                             <h1 className="hero-title">{project.profile.name} {tokenTicket && <small>({tokenTicket})</small>}  </h1>
                             <h2 className="hero-subtitle">{project.profile.tagline}</h2>
+                            <div className="tile-tags">
+                                {
+                                    Object.keys(project.profile.tags).length > 0 && Object.keys(project.profile.tags).map(e => {
+                                        return (
+                                            <span className="badge rounded-pill bg-secondary text-light" title={e}>{e}</span>
+                                        )
+                                    })
+                                }
+                            </div>
 
                             {/* <div className="hero-series">
                                 <h3 className="tooltip label-series trending" data-tooltip="TRENDING">
@@ -424,6 +447,24 @@ return (
 
                                 </div>
                             </div>
+                            <div className="near-content">
+                                <div className="content-widget related-widget">
+                                    <h2 className="content-title">Related Projects</h2>
+                                    <div className="content-body">
+                                        <a className="near-item near-item-list" target="_blank" title="LNC" href="#">
+                                            <div className="near-item-header">
+                                                <div className="tile">
+                                                    <div className="tile-icon"><img src="https://web.archive.org/web/20230521202108im_/https://awesomenear-spaces.fra1.digitaloceanspaces.com/production/projects/learn-near/learn-near.jpg" alt="" loading="lazy" /></div>
+                                                    <div className="tile-content">
+                                                        <h3 className="tile-title">Learn NEAR Club</h3>
+                                                        <div className="tile-tags text-gray">Learn how to use and build on NEAR and Earn NEAR</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div className="column col-lg-12 col-4">
                             {
@@ -492,30 +533,14 @@ return (
                                             </h2>
                                         }
                                         <div className="twitter-content embed-responsive embed-responsive-4by3" >
+                                            <small><i>Open link in new tab with right click or hold</i> </small>
                                             <iframe style={{ minHeight: "500px", width: "103%" }} srcDoc={twtIframe} className="embed-responsive-item" />
                                         </div>
                                     </div>
                                 </div>
                             }
 
-                            <div className="near-content">
-                                <div className="content-widget related-widget">
-                                    <h2 className="content-title">Related Projects</h2>
-                                    <div className="content-body">
-                                        <a className="near-item near-item-list" target="_blank" title="Tonic DEX" href="/web/20230521202119/https://awesomenear.com/tonic-dex">
-                                            <div className="near-item-header">
-                                                <div className="tile">
-                                                    <div className="tile-icon"><img src="https://web.archive.org/web/20230521202119im_/https://awesomenear-spaces.fra1.digitaloceanspaces.com/production/projects/tonic-dex/tonic-dex.jpg" alt="Tonic DEX" loading="lazy" /></div>
-                                                    <div className="tile-content">
-                                                        <h3 className="tile-title">Tonic DEX</h3>
-                                                        <div className="tile-tags text-gray">Orderbook DEX on NEAR.</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>

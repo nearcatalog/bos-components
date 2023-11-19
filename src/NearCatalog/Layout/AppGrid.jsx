@@ -37,9 +37,9 @@ return (
 
                             {/* 1 item  */}
                             {
-                                Object.keys(projects).map(( e ) => {
-                                    console.log("E: " , e) ;
-                                    let p  = projects[e];
+                                Object.keys(projects).map((e) => {
+                                    console.log("projectId: ", e);
+                                    let p = projects[e];
 
                                     return (
 
@@ -49,20 +49,20 @@ return (
                                                 <div className="near-item-header">
                                                     <div className="tile">
                                                         <div className="tile-icon">
-                                                            <img src={p.profile.image?.url || "https://static.mediacdn.vn/genk/web_images/logogenk.svg" } 
-                                                            alt={p.profile.name} loading="lazy" /></div>
+                                                            <img src={p.profile.image?.url || "https://learnnear.club/wp-content/uploads/2021/09/lnc-profile-desktop-150x150.png"}
+                                                                alt={p.profile.name} loading="lazy" /></div>
                                                         <div className="tile-content">
                                                             <h2 className="tile-title">{p.profile.name}</h2>
                                                             <div className="tile-tags">
-                                                            {
-                                                                Object.keys(p.profile.tags).length > 0 && Object.keys(p.profile.tags).map( e => {
-                                                                   return(
-                                                                        <span title={e}>{e}</span>
-                                                                   )
-                                                                } )
-                                                            }
+                                                                {
+                                                                    Object.keys(p.profile.tags).length > 0 && Object.keys(p.profile.tags).map(e => {
+                                                                        return (
+                                                                            <span className="badge rounded-pill bg-secondary text-light" title={e}>{e}</span>
+                                                                        )
+                                                                    })
+                                                                }
                                                             </div>
-            
+
                                                         </div>
                                                     </div>
 
