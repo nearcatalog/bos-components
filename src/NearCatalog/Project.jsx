@@ -131,13 +131,14 @@ a.text-gray:visited{color:#959595;}
 @media screen and (max-width:600px){
 .awesome-hero{padding:1rem 0;}
 }
+.hero-links .link-item.btn.btn-lg.btn-link{font-size:1.2rem}
 .label-series{align-items:center;background:rgba(0,82,204,.1);border:.05rem solid transparent;border-radius:1rem;cursor:default;display:inline-flex;font-size:.6rem;font-weight:500;height:1rem;margin-bottom:0;margin-right:.2rem;padding:.1rem .3rem;}
 .label-series .icon-series{height:.6rem;margin-right:.1rem;width:.6rem;}
 .label-series.trending{background:rgba(0,82,204,.1);color:#0052cc;}
 .label-series.near{background:rgba(38,38,38,.075);color:#262626;}
 .label-series.aurora{background:rgba(120,214,75,.2);color:#5dc22c;}
 .section-project .awesome-hero .hero-content{max-width:600px;}
-.near-content .content-widget{background:#fff;border:.05rem solid #eee;border-radius:.8rem;box-shadow:0 .1rem 1.4rem rgba(34,34,34,.05);font-size:1rem;margin-bottom:1rem;padding:2rem;}
+.near-content .content-widget{background:#fff;border:.05rem solid #eee;border-radius:.8rem;box-shadow:0 .1rem 1.4rem rgba(34,34,34,.05);font-size:0.9rem;margin-bottom:1rem;padding:2rem;}
 .near-content .twitter-widget{padding-bottom:.5rem;}
 .near-content .related-widget .content-body{margin:auto -.5rem;}
 @media screen and (max-width:600px){
@@ -247,7 +248,6 @@ const twtIframe = `
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <script>
 twttr.ready(function (twttr) {
-    // Now bind our custom intent events
     twttr.events.bind('click', (event)=>{
         console.log("twt click" , event);
 
