@@ -201,7 +201,7 @@ html{font-size:20px;}
 const query = props?.cat.length > 0 ? fetch("https://nearcatalog.loc/wp-json/nearcatalog/v1/projects-by-category?cid=" + props.cat) : fetch("https://nearcatalog.loc/wp-json/nearcatalog/v1/projects");
 
 if (!query || !query.body) {
-  console.log("still loading.....");
+  console.log(" loading.....");
   return;
 }
 const projects = query.body;

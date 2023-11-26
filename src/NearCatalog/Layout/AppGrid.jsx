@@ -33,7 +33,6 @@ return (
 
                 <Widget src={`${componentPath}.Layout.Trending`} props={{
                     componentPath: props.componentPath, 
-                    projects: props.projects
                 }}/>
 
                 <div className="col py-3">

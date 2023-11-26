@@ -19,18 +19,29 @@ const Css = styled.div`
 .near-item-sm .tile-title{font-size:.7rem;text-align:center;color: rgb(34, 34, 34); font-weight:bold}
 `;
 const componentPath = props.componentPath;
-const projects = props.projects;
+let query = false;
+State.init({
+    projects : false
+});
+asyncFetch("https://nearcatalog.loc/wp-json/nearcatalog/v1/projects-by-category?cid=trending").then( res =>{
+    State.update({projects:  res.body});
+    console.log("async fecth ready! " , res.body);
+} );
+
+if (!state.projects) {
+  return "🔥🔥🔥";
+}
+// const projects = query.body;
 return (
     <Css>
         <h3 className="my-3">🔥Trending</h3>
-
         <div className="awesome-trending-content overflow-auto">
             {
-                Object.keys(projects).map((e) => {
-                    let p = projects[e];
+                Object.keys(state.projects).map((e) => {
+                    let p = state.projects[e];
                     return (<a className="near-item-sm" title={p.profile.name} href={`/${componentPath}.Project?id=${e}`}>
                         <div className="tile-icon"><img src={p.profile.image?.url || "https://learnnear.club/wp-content/uploads/2021/09/lnc-profile-desktop-150x150.png"}
-                         alt={p.profile.name} loading="lazy"/></div>
+                         alt={p.profile.name}/></div>
                         <div className="tile-content">
                             <h2 className="tile-title">{p.profile.name}</h2>
                         </div>
