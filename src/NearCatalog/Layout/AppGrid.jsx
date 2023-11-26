@@ -2,6 +2,11 @@ const componentPath = props.componentPath;
 const projects = props.projects;
 return (
     <div className="container near-bg" id="awesomebos-wrap">
+
+        <Widget src={`${componentPath}.Layout.Navbar`} props={{
+            componentPath: componentPath,
+        }} />
+
         <div className="row">
 
             <Widget src={`${componentPath}.Layout.LeftSidebar`} props={{
@@ -11,10 +16,8 @@ return (
             <div id="near-content-container" className="col col-md-9 py-3 near-right container ">
 
                 <div className="awesome-hero">
-                    <h1 className="awesome-title">Infrastructure</h1>
-                    <p className="awesome-desc">
-                        An example 2-level sidebar with collasible menu items.
-                    </p>
+                    <h1 className="awesome-title">{props.title.length > 0 ? props.title : "" }</h1>
+                    <p className="awesome-desc">{props.desc}</p>
                 </div>
 
                 <div id="bos-search-input" class="input-group">
@@ -28,7 +31,10 @@ return (
                     <span className="mx-2">Explore by categories</span>
                 </button>
 
-                <Widget src={`${componentPath}.Layout.Trending`} />
+                <Widget src={`${componentPath}.Layout.Trending`} props={{
+                    componentPath: props.componentPath, 
+                    projects: props.projects
+                }}/>
 
                 <div className="col py-3">
 
@@ -44,7 +50,7 @@ return (
                                     return (
 
                                         <div className="near-item-wrap col-md-4 col-sm-12 p-3">
-                                            <a className="near-item" target="_blank" title={p.name}
+                                            <a className="near-item" title={p.name}
                                                 href={`/${componentPath}.Project?id=${e}`}>
                                                 <div className="near-item-header">
                                                     <div className="tile">

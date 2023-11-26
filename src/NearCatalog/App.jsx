@@ -196,23 +196,27 @@ html{font-size:20px;}
 .aside-container .awesome-aside-select .btn{font-size:.7rem;font-weight:400;justify-content:space-between;position:relative;z-index:9;}
 `;
 
-const projects = Social.getr("legacy-awesome.near/project", "final");
+// const projects = Social.getr("legacy-awesome.near/project", "final");
 
-if(!projects ){
+const query = props?.cat.length > 0 ? fetch("https://nearcatalog.loc/wp-json/nearcatalog/v1/projects-by-category?cid=" + props.cat) : fetch("https://nearcatalog.loc/wp-json/nearcatalog/v1/projects");
+
+if (!query || !query.body) {
   console.log("still loading.....");
   return;
 }
-console.log("projects" , projects);
+const projects = query.body;
+console.log("projects", projects);
+
 
 return (
   <>
     <Css>
-
-     <Widget src={`${componentPath}.Layout.AppGrid`} props={{
-      componentPath:componentPath,
-      projects: projects
-     }} />
-
+      <Widget src={`${componentPath}.Layout.AppGrid`} props={{
+        componentPath: componentPath,
+        projects: projects,
+        title: props?.cat.length > 0 ? props.cat : "",
+        desc: ""
+      }} />
     </Css>
 
   </>

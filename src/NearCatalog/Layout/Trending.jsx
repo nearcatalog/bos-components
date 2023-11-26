@@ -18,71 +18,25 @@ const Css = styled.div`
 .near-item-sm .tile-content{width:100%;}
 .near-item-sm .tile-title{font-size:.7rem;text-align:center;color: rgb(34, 34, 34); font-weight:bold}
 `;
-
+const componentPath = props.componentPath;
+const projects = props.projects;
 return (
     <Css>
-        <h3 className="my-3">Trending Projects</h3>
+        <h3 className="my-3">🔥Trending</h3>
 
         <div className="awesome-trending-content overflow-auto">
-            <a className="near-item-sm" target="_blank" title="Ref Finance" href="/web/20221205205910/https://awesomenear.com/ref-finance">
-                <div className="tile-icon"><img src="https://web.archive.org/web/20221205205910im_/https://awesome-near.s3.amazonaws.com/ref-finance.jpg" alt="Ref Finance" /></div>
-                <div className="tile-content">
-                    <h2 className="tile-title">Ref Finance</h2>
-                </div>
-            </a>
-            <a className="near-item-sm" target="_blank" title="Aurora" href="/web/20221205205910/https://awesomenear.com/aurora-dev">
-                <div className="tile-icon"><img src="https://web.archive.org/web/20221205205910im_/https://awesome-near.s3.amazonaws.com/aurora-dev.jpg" alt="Aurora" /></div>
-                <div className="tile-content">
-                    <h2 className="tile-title">Aurora</h2>
-                </div>
-            </a>
-            <a className="near-item-sm" target="_blank" title="Trisolaris" href="/web/20221205205910/https://awesomenear.com/trisolaris">
-                <div className="tile-icon"><img src="https://web.archive.org/web/20221205205910im_/https://awesome-near.s3.amazonaws.com/trisolaris.jpg" alt="Trisolaris" /></div>
-                <div className="tile-content">
-                    <h2 className="tile-title">Trisolaris</h2>
-                </div>
-            </a>
-            <a className="near-item-sm" target="_blank" title="Octopus Network" href="/web/20221205205910/https://awesomenear.com/octopus-network">
-                <div className="tile-icon"><img src="https://web.archive.org/web/20221205205910im_/https://awesome-near.s3.amazonaws.com/octopus-network.jpg" alt="Octopus Network" /></div>
-                <div className="tile-content">
-                    <h2 className="tile-title">Octopus Network</h2>
-                </div>
-            </a>
-            <a className="near-item-sm" target="_blank" title="Paras" href="/web/20221205205910/https://awesomenear.com/paras">
-                <div className="tile-icon"><img src="https://web.archive.org/web/20221205205910im_/https://awesome-near.s3.amazonaws.com/paras.jpg" alt="Paras" /></div>
-                <div className="tile-content">
-                    <h2 className="tile-title">Paras</h2>
-                </div>
-            </a>
-            <a className="near-item-sm" target="_blank" title="Learn NEAR Club" href="/web/20221205205910/https://awesomenear.com/learn-near">
-                <div className="tile-icon"><img src="https://web.archive.org/web/20221205205910im_/https://awesome-near.s3.amazonaws.com/learn-near.jpg" alt="Learn NEAR Club" /></div>
-                <div className="tile-content">
-                    <h2 className="tile-title">Learn NEAR Club</h2>
-                </div>
-            </a>
-            <a className="near-item-sm" target="_blank" title="Sweat Еconomy" href="/web/20221205205910/https://awesomenear.com/sweat-economy">
-                <div className="tile-icon"><img src="https://web.archive.org/web/20221205205910im_/https://awesome-near.s3.amazonaws.com/sweat-economy.jpg" alt="Sweat Еconomy" /></div>
-                <div className="tile-content">
-                    <h2 className="tile-title">Sweat Еconomy</h2>
-                </div>
-            </a>
-            <a className="near-item-sm" target="_blank" title="Meta Pool" href="/web/20221205205910/https://awesomenear.com/meta-pool">
-                <div className="tile-icon"><img src="https://web.archive.org/web/20221205205910im_/https://awesome-near.s3.amazonaws.com/meta-pool.jpg" alt="Meta Pool" /></div>
-                <div className="tile-content">
-                    <h2 className="tile-title">Meta Pool</h2>
-                </div>
-            </a>
-            <a className="near-item-sm" target="_blank" title="Spin" href="/web/20221205205910/https://awesomenear.com/spin">
-                <div className="tile-icon"><img src="https://web.archive.org/web/20221205205910im_/https://awesome-near.s3.amazonaws.com/spin.jpg" alt="Spin" /></div>
-                <div className="tile-content">
-                    <h2 className="tile-title">Spin</h2>
-                </div>
-            </a>     <a className="near-item-sm" target="_blank" title="Spin" href="/web/20221205205910/https://awesomenear.com/spin">
-                <div className="tile-icon"><img src="https://web.archive.org/web/20221205205910im_/https://awesome-near.s3.amazonaws.com/spin.jpg" alt="Spin" /></div>
-                <div className="tile-content">
-                    <h2 className="tile-title">Spin</h2>
-                </div>
-            </a>
+            {
+                Object.keys(projects).map((e) => {
+                    let p = projects[e];
+                    return (<a className="near-item-sm" title={p.profile.name} href={`/${componentPath}.Project?id=${e}`}>
+                        <div className="tile-icon"><img src={p.profile.image?.url || "https://learnnear.club/wp-content/uploads/2021/09/lnc-profile-desktop-150x150.png"}
+                         alt={p.profile.name} loading="lazy"/></div>
+                        <div className="tile-content">
+                            <h2 className="tile-title">{p.profile.name}</h2>
+                        </div>
+                    </a>)
+                })
+            }
         </div>
-        </Css>
+    </Css>
 );

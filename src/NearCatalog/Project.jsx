@@ -220,21 +220,15 @@ const componentPath = `${owner}/widget/NearCatalog`;
 if (!props.id) {
     return "404 :<";
 }
-const project = Social.getr("legacy-awesome.near/project/" + props.id?.trim(), "final");
-if (!project) {
-    return "loading...........";
+// const project = Social.getr("legacy-awesome.near/project/" + props.id?.trim(), "final");
+const query = fetch("https://nearcatalog.loc/wp-json/nearcatalog/v1/project?pid=" + props.id?.trim());
+if ( !query || !query.body) {
+    return "loading....";
 }
+const project = query.body;
 console.log("project info: ", project);
 
 const tags = project.profile.tags;
-// const tokenInfo = project.profile.tokens ? project.profile.tokens : {
-//     ticket: "REF",
-//     address: {
-//         near: "token.v2.ref-finance.near",
-//         aurora: "0x221292443758f63563a1ed04b547278b05845fcb"
-//     },
-// }
-
 const tokenTicket = project.profile.tokens ? Object.keys(project.profile.tokens)[0] : false;
 const tokenInfo = tokenTicket && project.profile.tokens ? project.profile.tokens[tokenTicket] : {}
 console.log("token info: ", tokenInfo, "ticket: ", tokenTicket);
@@ -262,8 +256,6 @@ window.onload = function(){
         twttr.events.bind('tweet', (e) => {
             console.log("twt tweet" , e);
         });
-
-
     });
 }
 
@@ -273,6 +265,11 @@ window.onload = function(){
 return (
     <Css>
         <div className="container grid-xl near-bg">
+        <Widget src={`${componentPath}.Layout.Navbar`} props={{
+            componentPath: componentPath,
+        }} />
+
+
             <div className="columns">
                 <div className="hero-container column col-md-12">
 
@@ -292,31 +289,6 @@ return (
                                     })
                                 }
                             </div>
-
-                            {/* <div className="hero-series">
-                                <h3 className="tooltip label-series trending" data-tooltip="TRENDING">
-                                    <span className="text-assistive">Ref Finance on </span>
-                                    <svg className="icon iconSeries" height="20" width="20">
-
-                                    </svg>
-                                    TRENDING
-                                </h3>
-                                <h3 className="tooltip label-series near" data-tooltip="NEAR">
-                                    <span className="text-assistive">Ref Finance on </span>
-                                    <svg className="icon iconSeries" height="20" width="20">
-
-                                    </svg>
-                                    NEAR
-                                </h3>
-                                <h3 className="tooltip label-series aurora" data-tooltip="AURORA">
-                                    <span className="text-assistive">Ref Finance on </span>
-                                    <svg className="icon iconSeries" height="20" width="20">
-
-                                    </svg>
-                                    AURORA
-                                </h3>
-                            </div> */}
-
                         </div>
 
                         <div className="hero-actions">
@@ -335,12 +307,7 @@ return (
                                         )
                                     }
                                 </div>
-
-                                {/* <a href="" target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-primary">Buy<small className="ml-1">via Ref</small></a> */}
-
                                 <div className="btn-group">
-                                    {/* <a href="##" target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg" title="Share to Twitter">Share</a> */}
-
                                     <div className="link-item btn btn-lg dropdown dropdown-right dropdown-toggle c-hand" tabindex="0">
                                         <i class="bi bi-three-dots-vertical"></i>
                                         <ul className="menu">
@@ -405,8 +372,6 @@ return (
                                         </a>
                                     )
                                 }
-
-
                             </div>
                         </div>
                     </div>
@@ -427,7 +392,7 @@ return (
                                     </div>
                                 </div>
                             </div>
-                            <div className="near-content">
+                            {/* <div className="near-content">
                                 <div className="content-widget article-widget">
                                     <h2 className="content-title">{project.profile.name} News</h2>
 
@@ -446,7 +411,7 @@ return (
                                     </div>
 
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="near-content">
                                 <div className="content-widget related-widget">
                                     <h2 className="content-title">Related Projects</h2>
