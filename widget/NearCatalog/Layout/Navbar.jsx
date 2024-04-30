@@ -1,11 +1,11 @@
 const Css = styled.div`
-    margin-top:10px;
-    .nav-item{
-        list-style:none;
-    }
-    #nearcatalog-navbar .navbar-nav{
-        margin:0;
-    }
+  margin-top: 10px;
+  .nav-item {
+    list-style: none;
+  }
+  #nearcatalog-navbar .navbar-nav {
+    margin: 0;
+  }
 `;
 const navItems = [
   { t: "🏠Home", l: ``, r: "home" },
@@ -57,10 +57,7 @@ return (
             })}
             <li className="nav-item">
               {" "}
-              <a
-                className="nav-link"
-                href="https://submit.nearcatalog.xyz/new-project/"
-              >
+              <a className="nav-link" href="https://submit.nearcatalog.xyz/new-project/">
                 📥 Submit project
               </a>
             </li>
