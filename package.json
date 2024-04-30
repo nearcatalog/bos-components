@@ -1,0 +1,19 @@
+{
+  "name": "nearcatalog",
+  "version": "0.0.0",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "bw": "bos-workspace",
+    "dev": "bw dev",
+    "dev:testnet": "bw dev -n testnet",
+    "build": "bw build",
+    "build:testnet": "bw build -n testnet",
+    "deploy": "bw deploy"
+  },
+  "devDependencies": {
+    "bos-workspace": "^1.0.0-alpha",
+    "prettier": "^2.8.8"
+  }
+}
